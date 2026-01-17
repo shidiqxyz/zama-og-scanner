@@ -9,6 +9,7 @@ import { ZAMA_CONTRACT_ADDRESS } from '@/lib/ethereum';
 import { TransactionTable } from './transaction-table';
 import { StatsPanel } from './stats-panel';
 import { AddressLeaderboard } from './address-leaderboard';
+import { UnusedNftList } from './unused-nft-list';
 import type { PurchaseTransaction, ScanStatistics } from '@/types/transaction';
 
 interface ScanResponse {
@@ -80,7 +81,7 @@ export function ScannerDashboard() {
             {/* Results */}
             {data && (
                 <Tabs defaultValue="stats" className="space-y-6">
-                    <TabsList className="w-full bg-zinc-900 border border-zinc-800 h-auto p-1 grid grid-cols-3 gap-1">
+                    <TabsList className="w-full bg-zinc-900 border border-zinc-800 h-auto p-1 grid grid-cols-2 md:grid-cols-4 gap-1">
                         <TabsTrigger
                             value="stats"
                             className="data-[state=active]:bg-white data-[state=active]:text-black h-auto py-2 sm:py-1.5 flex flex-col sm:flex-row gap-1 sm:gap-2"
@@ -99,14 +100,21 @@ export function ScannerDashboard() {
                             </div>
                         </TabsTrigger>
                         <TabsTrigger
-                            value="addresses"
+                            value="leaderboard"
                             className="data-[state=active]:bg-white data-[state=active]:text-black h-auto py-2 sm:py-1.5 flex flex-col sm:flex-row gap-1 sm:gap-2"
                         >
                             <Users className="h-4 w-4" />
                             <div className="flex flex-col sm:flex-row sm:gap-1 items-center">
-                                <span className="text-[10px] sm:text-sm font-medium">Addresses</span>
+                                <span className="text-[10px] sm:text-sm font-medium">Leaderboard</span>
                                 <span className="text-[10px] sm:text-sm opacity-70 hidden sm:inline">({data.statistics?.uniqueBuyers || 0})</span>
                             </div>
+                        </TabsTrigger>
+                        <TabsTrigger
+                            value="unused"
+                            className="data-[state=active]:bg-white data-[state=active]:text-black h-auto py-2 sm:py-1.5 flex flex-col sm:flex-row gap-1 sm:gap-2"
+                        >
+                            <AlertCircle className="h-4 w-4" />
+                            <span className="text-[10px] sm:text-sm font-medium">Not Participated</span>
                         </TabsTrigger>
                     </TabsList>
 
@@ -118,8 +126,12 @@ export function ScannerDashboard() {
                         <TransactionTable transactions={data.transactions} isLoading={isLoadingData} />
                     </TabsContent>
 
-                    <TabsContent value="addresses" className="mt-6">
+                    <TabsContent value="leaderboard" className="mt-6">
                         <AddressLeaderboard transactions={data.transactions} isLoading={isLoadingData} />
+                    </TabsContent>
+
+                    <TabsContent value="unused" className="mt-6">
+                        <UnusedNftList transactions={data.transactions} isLoading={isLoadingData} />
                     </TabsContent>
                 </Tabs>
             )}
