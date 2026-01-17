@@ -80,27 +80,33 @@ export function ScannerDashboard() {
             {/* Results */}
             {data && (
                 <Tabs defaultValue="stats" className="space-y-6">
-                    <TabsList className="bg-zinc-900 border border-zinc-800">
+                    <TabsList className="w-full bg-zinc-900 border border-zinc-800 h-auto p-1 grid grid-cols-3 gap-1">
                         <TabsTrigger
                             value="stats"
-                            className="data-[state=active]:bg-white data-[state=active]:text-black"
+                            className="data-[state=active]:bg-white data-[state=active]:text-black h-auto py-2 sm:py-1.5 flex flex-col sm:flex-row gap-1 sm:gap-2"
                         >
-                            <BarChart3 className="h-4 w-4 mr-2" />
-                            Statistics
+                            <BarChart3 className="h-4 w-4" />
+                            <span className="text-[10px] sm:text-sm font-medium">Statistics</span>
                         </TabsTrigger>
                         <TabsTrigger
                             value="transactions"
-                            className="data-[state=active]:bg-white data-[state=active]:text-black"
+                            className="data-[state=active]:bg-white data-[state=active]:text-black h-auto py-2 sm:py-1.5 flex flex-col sm:flex-row gap-1 sm:gap-2"
                         >
-                            <List className="h-4 w-4 mr-2" />
-                            Transactions ({data.totalCount})
+                            <List className="h-4 w-4" />
+                            <div className="flex flex-col sm:flex-row sm:gap-1 items-center">
+                                <span className="text-[10px] sm:text-sm font-medium">Transactions</span>
+                                <span className="text-[10px] sm:text-sm opacity-70 hidden sm:inline">({data.totalCount})</span>
+                            </div>
                         </TabsTrigger>
                         <TabsTrigger
                             value="addresses"
-                            className="data-[state=active]:bg-white data-[state=active]:text-black"
+                            className="data-[state=active]:bg-white data-[state=active]:text-black h-auto py-2 sm:py-1.5 flex flex-col sm:flex-row gap-1 sm:gap-2"
                         >
-                            <Users className="h-4 w-4 mr-2" />
-                            Addresses ({data.statistics?.uniqueBuyers || 0})
+                            <Users className="h-4 w-4" />
+                            <div className="flex flex-col sm:flex-row sm:gap-1 items-center">
+                                <span className="text-[10px] sm:text-sm font-medium">Addresses</span>
+                                <span className="text-[10px] sm:text-sm opacity-70 hidden sm:inline">({data.statistics?.uniqueBuyers || 0})</span>
+                            </div>
                         </TabsTrigger>
                     </TabsList>
 

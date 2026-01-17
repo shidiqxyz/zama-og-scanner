@@ -331,11 +331,11 @@ export function TransactionTable({ transactions, isLoading }: TransactionTablePr
 
             {/* Pagination */}
             {totalPages > 1 && (
-                <div className="flex items-center justify-between">
-                    <div className="text-sm text-zinc-500">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="text-sm text-zinc-500 order-2 sm:order-1">
                         Page {currentPage} of {totalPages}
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto justify-between sm:justify-end">
                         <Button
                             variant="outline"
                             size="sm"
@@ -346,7 +346,7 @@ export function TransactionTable({ transactions, isLoading }: TransactionTablePr
                             <ChevronLeft className="h-4 w-4 mr-1" />
                             Previous
                         </Button>
-                        <div className="flex items-center gap-1">
+                        <div className="hidden sm:flex items-center gap-1">
                             {[...Array(Math.min(5, totalPages))].map((_, i) => {
                                 let pageNum: number;
                                 if (totalPages <= 5) {
