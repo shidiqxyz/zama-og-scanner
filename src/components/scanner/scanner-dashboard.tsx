@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart3, List, AlertCircle, Users, RefreshCw } from 'lucide-react';
+import { BarChart3, List, AlertCircle, Users } from 'lucide-react';
 import { ZAMA_CONTRACT_ADDRESS } from '@/lib/ethereum';
 import { TransactionTable } from './transaction-table';
 import { StatsPanel } from './stats-panel';
@@ -51,17 +51,6 @@ export function ScannerDashboard() {
 
     return (
         <div className="space-y-6">
-            {/* Loading State */}
-            {isLoadingData && !data && (
-                <Card className="bg-zinc-900 border-zinc-800">
-                    <CardContent className="flex items-center justify-center py-16">
-                        <div className="flex flex-col items-center gap-4">
-                            <RefreshCw className="h-8 w-8 text-white animate-spin" />
-                            <p className="text-zinc-400">Loading transactions from Etherscan...</p>
-                        </div>
-                    </CardContent>
-                </Card>
-            )}
 
             {/* Error State */}
             {error && (

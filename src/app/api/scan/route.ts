@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
 
 interface CachedData {
     transactions: unknown[];
@@ -11,12 +9,21 @@ interface CachedData {
 
 export async function GET(request: NextRequest) {
     try {
-        // Try to read from cached JSON file first
-        const dataPath = path.join(process.cwd(), 'public', 'data', 'transactions.json');
+        // Build the URL for the cached JSON file
+        const protocol = request.headers.get('x-forwarded-proto') || 'http';
+        const host = request.headers.get('host') || 'localhost:3000';
+        const cacheUrl = `${protocol}://${host}/data/transactions.json`;
 
         try {
-            const fileContent = await fs.readFile(dataPath, 'utf-8');
-            const cachedData: CachedData = JSON.parse(fileContent);
+            const response = await fetch(cacheUrl, {
+                next: { revalidate: 60 } // Cache for 60 seconds
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch cache: ${response.status}`);
+            }
+
+            const cachedData: CachedData = await response.json();
 
             console.log(`[Cache Hit] Serving ${cachedData.transactions.length} transactions from cache (generated: ${cachedData.generatedAt})`);
 
